@@ -20,13 +20,18 @@ This program allows users to store information regarding their `username`, `emai
 * Improper requests will render a 'Bad Request' 400 status, or 404 status.
 
 ## Create Gallery
-5. To run a POST, to create a new gallery image, type into command line: `http POST :3000/api/gallery  username=<username> email=<email> password=<password>`
+5. To run a POST, to create a new gallery image, type into command line: `http POST :3000/api/gallery  name=<picture name> desc=<description> 'Authorization:Bearer <authorization bearer code from User>'`
+  * `http POST :3000/api/gallery name=abswhite desc=selfie 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6Ijg4ODU5NDY1NGJlZjUyODNhNTFhOWIxZmQzNjE0MTBhNjFlNDI4MmE0NmEyNzZhMWMzZTk0ZWJiMDRhYjEzYTEiLCJpYXQiOjE0OTQ0MjkxMDV9.azi2L8XzRk1wfKwj2uvAUauY6DxkA8vfztmFGVoMqvs'`
 
-6. To run a GET, to retrieve a new gallery image, type into command line:
+6. To run a GET, to retrieve a new gallery image, type into command line: `http GET :3000/api/gallery/<gallery image ID> 'Authorization:Bearer <authorization bearer code from User>'`
+  * `http GET :3000/api/gallery/59133f11e68bc0733cc86655 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6Ijg4ODU5NDY1NGJlZjUyODNhNTFhOWIxZmQzNjE0MTBhNjFlNDI4MmE0NmEyNzZhMWMzZTk0ZWJiMDRhYjEzYTEiLCJpYXQiOjE0OTQ0MjkxMDV9.azi2L8XzRk1wfKwj2uvAUauY6DxkA8vfztmFGVoMqvs'`
 
-7. To run a PUT, to update a new gallery image, type into command line:
 
-8. To run a DELETE, to eliminate a new gallery image, type into command line:
+7. To run a PUT, to update a new gallery image, type into command line:`http PUT :3000/api/gallery/<gallery image ID> name=<new picture name> desc=<new description> 'Authorization:Bearer <authorization bearer code from User>'`
+  * `http PUT :3000/api/gallery/59133f11e68bc0733cc86655 name=abigail desc=test 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6Ijg4ODU5NDY1NGJlZjUyODNhNTFhOWIxZmQzNjE0MTBhNjFlNDI4MmE0NmEyNzZhMWMzZTk0ZWJiMDRhYjEzYTEiLCJpYXQiOjE0OTQ0MjkxMDV9.azi2L8XzRk1wfKwj2uvAUauY6DxkA8vfztmFGVoMqvs'`
+
+8. To run a DELETE, to eliminate a new gallery image, type into command line: `http DELETE :3000/api/gallery/<gallery image ID> 'Authorization:Bearer <authorization bearer code from User>'`
+  * `http PUT :3000/api/gallery/59133f11e68bc0733cc86655 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6Ijg4ODU5NDY1NGJlZjUyODNhNTFhOWIxZmQzNjE0MTBhNjFlNDI4MmE0NmEyNzZhMWMzZTk0ZWJiMDRhYjEzYTEiLCJpYXQiOjE0OTQ0MjkxMDV9.azi2L8XzRk1wfKwj2uvAUauY6DxkA8vfztmFGVoMqvs'`
 
 
 # Directions for Accessing Database

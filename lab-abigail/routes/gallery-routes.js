@@ -20,7 +20,7 @@ module.exports = function(router) {
 
   router.delete('/gallery/:id', bearerAuth, (req, res) => {
     debug('#DELETE /api/gallery/:id');
-    galleryController.deleteItem(req, res, req.params.id, req.user._id);
+    galleryController.deleteItem(req, res, req.params.id, req.user_id);
   });
 
   router.put('/gallery/:id', bearerAuth, (req, res) => {

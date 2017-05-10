@@ -42,9 +42,7 @@ exports.deleteItem = function(req, res, id, userId) {
       return createError(401, 'Invalid user');
     }
     res.json(gallery);
-  })
-  .catch(err => console.log(err));
-
+  });
   Gallery.findByIdAndRemove(id)
   .then( () => {
     res.sendStatus(204);
