@@ -42,14 +42,10 @@ describe('Gallery Routes', function() {
       .then( user => user.save())
       .then( user => {
         this.tempUser = user;
-        // console.log('temp user1', this.tempUser);
         return user.generateToken();
       })
       .then( token => {
-        console.log('TOKEN', token);
-        // console.log('temp user2', this.tempUser);
         this.tempToken = token;
-        console.log('TEMPOKEN', token);
         done();
       })
       .catch(() => done());
@@ -62,12 +58,9 @@ describe('Gallery Routes', function() {
         Authorization: `Bearer ${this.tempToken}`,
       })
       .end((err, res) => {
-        console.log('temp user3', this.tempUser);
         console.log(err);
         if (err) return done(err);
 
-        console.log('example gallery name:', exampleGallery.name);
-        console.log('res body name:', res.body);
         let date = new Date(res.body.created).toString();
         expect(res.body.name).to.equal(exampleGallery.name);
         expect(res.body.desc).to.equal(exampleGallery.desc);

@@ -2,12 +2,12 @@
 ======
 
 # About
-This program allows users to store information regarding their `username`, `email`, and `password` using a Mongo Database. The program utilizes REST principles to POST and GET to create and retrieve entries, given custom user input. This program runs in the user's terminal on `localhost:3000`.
+This program allows users to store information regarding their `username`, `email`, and `password` using a Mongo Database. The program also allows users to create, update, retrieve, and delete gallery entries while validating their user informaiton. The program utilizes REST principles to POST and GET to create and retrieve entries, given custom user input. This program runs in the user's terminal on `localhost:3000`.
 
 # Directions for Modifying Database
 1. First, `npm i` to download all resources onto the local machine.
 2. In terminal, run files using `nodemon server`.
-3. In a separate terminal tab, enter entries:
+3. In a separate terminal tab, enter the following:
 
 ## Create User
 4. To run POST or SIGNUP, type into command line:
@@ -21,17 +21,17 @@ This program allows users to store information regarding their `username`, `emai
 
 ## Create Gallery
 5. To run a POST, to create a new gallery image, type into command line: `http POST :3000/api/gallery  name=<picture name> desc=<description> 'Authorization:Bearer <authorization bearer code from User>'`
-  * `http POST :3000/api/gallery name=abswhite desc=selfie 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6Ijg4ODU5NDY1NGJlZjUyODNhNTFhOWIxZmQzNjE0MTBhNjFlNDI4MmE0NmEyNzZhMWMzZTk0ZWJiMDRhYjEzYTEiLCJpYXQiOjE0OTQ0MjkxMDV9.azi2L8XzRk1wfKwj2uvAUauY6DxkA8vfztmFGVoMqvs'`
+    * Example: `http POST :3000/api/gallery name=abswhite desc=selfie 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6Ijg4ODU5NDY1NGJlZjUyODNhNTFhOWIxZmQzNjE0MTBhNjFlNDI4MmE0NmEyNzZhMWMzZTk0ZWJiMDRhYjEzYTEiLCJpYXQiOjE0OTQ0MjkxMDV9.azi2L8XzRk1wfKwj2uvAUauY6DxkA8vfztmFGVoMqvs'`
 
 6. To run a GET, to retrieve a new gallery image, type into command line: `http GET :3000/api/gallery/<gallery image ID> 'Authorization:Bearer <authorization bearer code from User>'`
-  * `http GET :3000/api/gallery/59133f11e68bc0733cc86655 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6Ijg4ODU5NDY1NGJlZjUyODNhNTFhOWIxZmQzNjE0MTBhNjFlNDI4MmE0NmEyNzZhMWMzZTk0ZWJiMDRhYjEzYTEiLCJpYXQiOjE0OTQ0MjkxMDV9.azi2L8XzRk1wfKwj2uvAUauY6DxkA8vfztmFGVoMqvs'`
+    * Example: `http GET :3000/api/gallery/59133f11e68bc0733cc86655 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6Ijg4ODU5NDY1NGJlZjUyODNhNTFhOWIxZmQzNjE0MTBhNjFlNDI4MmE0NmEyNzZhMWMzZTk0ZWJiMDRhYjEzYTEiLCJpYXQiOjE0OTQ0MjkxMDV9.azi2L8XzRk1wfKwj2uvAUauY6DxkA8vfztmFGVoMqvs'`
 
 
 7. To run a PUT, to update a new gallery image, type into command line:`http PUT :3000/api/gallery/<gallery image ID> name=<new picture name> desc=<new description> 'Authorization:Bearer <authorization bearer code from User>'`
-  * `http PUT :3000/api/gallery/59133f11e68bc0733cc86655 name=abigail desc=test 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6Ijg4ODU5NDY1NGJlZjUyODNhNTFhOWIxZmQzNjE0MTBhNjFlNDI4MmE0NmEyNzZhMWMzZTk0ZWJiMDRhYjEzYTEiLCJpYXQiOjE0OTQ0MjkxMDV9.azi2L8XzRk1wfKwj2uvAUauY6DxkA8vfztmFGVoMqvs'`
+    * Example: `http PUT :3000/api/gallery/59133f11e68bc0733cc86655 name=abigail desc=test 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6Ijg4ODU5NDY1NGJlZjUyODNhNTFhOWIxZmQzNjE0MTBhNjFlNDI4MmE0NmEyNzZhMWMzZTk0ZWJiMDRhYjEzYTEiLCJpYXQiOjE0OTQ0MjkxMDV9.azi2L8XzRk1wfKwj2uvAUauY6DxkA8vfztmFGVoMqvs'`
 
 8. To run a DELETE, to eliminate a new gallery image, type into command line: `http DELETE :3000/api/gallery/<gallery image ID> 'Authorization:Bearer <authorization bearer code from User>'`
-  * `http PUT :3000/api/gallery/59133f11e68bc0733cc86655 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6Ijg4ODU5NDY1NGJlZjUyODNhNTFhOWIxZmQzNjE0MTBhNjFlNDI4MmE0NmEyNzZhMWMzZTk0ZWJiMDRhYjEzYTEiLCJpYXQiOjE0OTQ0MjkxMDV9.azi2L8XzRk1wfKwj2uvAUauY6DxkA8vfztmFGVoMqvs'`
+    * Example: `http PUT :3000/api/gallery/59133f11e68bc0733cc86655 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6Ijg4ODU5NDY1NGJlZjUyODNhNTFhOWIxZmQzNjE0MTBhNjFlNDI4MmE0NmEyNzZhMWMzZTk0ZWJiMDRhYjEzYTEiLCJpYXQiOjE0OTQ0MjkxMDV9.azi2L8XzRk1wfKwj2uvAUauY6DxkA8vfztmFGVoMqvs'`
 
 
 # Directions for Accessing Database
