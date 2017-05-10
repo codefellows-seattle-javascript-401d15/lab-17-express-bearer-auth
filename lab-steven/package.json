@@ -1,0 +1,19 @@
+{
+  "name": "lab-steven",
+  "version": "1.0.0",
+  "description": "Authentication lab",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "auth",
+    "jwt"
+  ],
+  "author": "CF Steven Johnson",
+  "license": "MIT"
+}
