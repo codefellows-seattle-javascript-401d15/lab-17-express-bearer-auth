@@ -20,7 +20,34 @@ exports.fetchUserGallery = function(id, userId) {
     if (gallery.userId.toString() !== userId.toString()) {
       return Promise.reject(createError(401, 'Invalid user'));
     }
-    Promise.resolve(gallery);
+    return Promise.resolve(gallery);
   })
   .catch(() => Promise.reject(createError(404, 'gallery not found')));
+};
+
+exports.updateGallery = function(id, userId, body) {
+  debug('#updateGallery');
+
+  return Gallery.findByIdAndUpdate(id, body, {new: true})
+  .then(gallery => {
+    if (gallery.userId.toString() !== userId.toString()) {
+      return Promise.reject(createError(401, 'Invalid user'));
+    }
+    return Promise.resolve(gallery);
+  })
+  .catch(() => Promise.reject(createError(404, 'gallery not found')));
+};
+
+exports.deleteGallery = function(id, userId) {
+  debug('#deleteGallery');
+
+  Gallery.findById(id)
+  .then(gallery => {
+    if (gallery.userId.toString() !== userId.toString()) {
+      return Promise.reject(createError(401, 'Invalid user'));
+    }
+  })
+  .catch(err => Promise.reject(err));
+  
+  return Gallery.findByIdAndRemove(id);
 };
