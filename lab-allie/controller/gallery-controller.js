@@ -2,7 +2,7 @@
 
 const createError = require('http-errors');
 const Promise = require('bluebird');
-const User = require('../models/server.js');
+const Gallery = require('../model.album.js');
 
 module.exports = exports = {};
 
@@ -14,7 +14,9 @@ exports.addPicture = function(req, res) {
   .catch(err => res.status(err.status).send(err.message));
 };
 
-exports.getPicture = function(reqAuth, res) {
+exports.getPicture = function(req, res) {
+  if(!req) return Promise.reject(createError(400, 'Track ID required'));
+  
   Gallery.findById(req.params.id)
   .then(gallery => {
     if(gallery.userId.toString() !== req.user._id.toString()) {
@@ -25,6 +27,18 @@ exports.getPicture = function(reqAuth, res) {
   .catch(err => res.status(err.status).send(err.message));
 };
 
-exports.updatePicture = function(reqAuth, res) {};
+exports.updatePicture = function(req, res) {
+  if(!req) return Promise.reject(createError(400, 'Track ID required'));
+  
+  Gallery.findOneAndUpdate(req.params.id, req.body, {new: true})
+  .then(pic => res.json(pic))
+  .catch(err => res.status(400).send(err.message));
+};
 
-exports.deletePicture = function(reqAuth, res) {};
+exports.deletePicture = function(req, res) {
+  if(!reqAuth) return Promise.reject(createError(400, 'Track ID required'));
+
+  Gallery.findByIdAndRemove(req.params.id)
+  .then(() => res.status(204).send())
+  .catch(err => res.send(err));
+};
