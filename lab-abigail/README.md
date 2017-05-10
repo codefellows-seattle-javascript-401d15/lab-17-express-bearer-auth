@@ -9,14 +9,25 @@ This program allows users to store information regarding their `username`, `emai
 2. In terminal, run files using `nodemon server`.
 3. In a separate terminal tab, enter entries:
 
-  * To run POST or SIGNUP, type into command line:
+## Create User
+4. To run POST or SIGNUP, type into command line:
 `http POST :3000/api/signup username=<username> email=<email> password=<password>`
-    * Example: `http POST :3000/api/signup username=abswhite email=abs@white.com password=1234`
+  * Example: `http POST :3000/api/signup username=abswhite email=abs@white.com password=1234`
 
-  * To run GET or SIGNIN, type into command line: `http GET :3000/api/signin -a <username>:<password>`
-    * Example: `http GET :3000/api/signin -a abswhite:1234`
+5. To run GET or SIGNIN, type into command line: `http GET :3000/api/signin -a <username>:<password>`
+  * Example: `http GET :3000/api/signin -a abswhite:1234`
 
 * Improper requests will render a 'Bad Request' 400 status, or 404 status.
+
+## Create Gallery
+5. To run a POST, to create a new gallery image, type into command line: `http POST :3000/api/gallery  username=<username> email=<email> password=<password>`
+
+6. To run a GET, to retrieve a new gallery image, type into command line:
+
+7. To run a PUT, to update a new gallery image, type into command line:
+
+8. To run a DELETE, to eliminate a new gallery image, type into command line:
+
 
 # Directions for Accessing Database
 1. Open Mongo Shell by entering `mongod --dbpath ./db` in the local machine terminal.
