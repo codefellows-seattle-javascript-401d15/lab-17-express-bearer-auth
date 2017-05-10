@@ -25,7 +25,7 @@ exports.createuser = function(req, res, user) {
   });
 };
 
-exports.fetchItem = function(res, reqAuth) {
+exports.fetchUser = function(res, reqAuth) {
   if(!reqAuth) return Promise.reject(createError(404, 'Not found'));
 
   return User.findOne({username: reqAuth.username})
