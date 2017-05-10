@@ -11,24 +11,23 @@ exports.addPicture = function(req, res) {
   
   new Gallery(req.body).save()
   .then(gallery => res.json(gallery))
-  .then(gallery => console.log('gallery', res.json(gallery)))
   .catch(err => {
     console.log(err);
     res.status(err.status).send(err.message);
   });
 };
 
-exports.getPicture = function(req, res) {
-  if(!req) return Promise.reject(createError(400, 'Track ID required'));
+exports.getPicture = function(req, res, id, userId) {
+  if(!id) return Promise.reject(createError(400, 'Track ID required'));
   
-  Gallery.findById(req.params.id)
+  Gallery.findById(id)
   .then(gallery => {
-    if(gallery.userId.toString() !== req.user._id.toString()) {
+    if(gallery.userId.toString() !== userId.toString()) {
       return createError(401, 'Invalid user');
     }
     res.json(gallery);
   })
-  .catch(err => res.status(err.status).send(err.message));
+  .catch(err => console.error(err));
 };
 
 exports.updatePicture = function(req, res) {

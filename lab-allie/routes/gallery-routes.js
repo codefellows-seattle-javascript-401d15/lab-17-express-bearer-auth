@@ -4,7 +4,6 @@ const galleryCtrl = require('../controller/gallery-controller.js');
 const bearerAuth = require('../lib/bearer-auth-middleware.js');
 const debug = require('debug')('cfgram:user-model');
 
-
 module.exports = function(router) {
   router.post('/gallery', bearerAuth, (req, res) => {
     debug('#POST /api/gallery');
@@ -13,7 +12,7 @@ module.exports = function(router) {
   
   router.get('/gallery/:id', bearerAuth, (req, res) => {
     debug('#GET /api/gallery/:id');
-    galleryCtrl.getPicture(req.auth, res);
+    galleryCtrl.getPicture(req, res, req.params.id, req.user._id);
   });
   
   router.put('/gallery/:id', bearerAuth, (req, res) => {
