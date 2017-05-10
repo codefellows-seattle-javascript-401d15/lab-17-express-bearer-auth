@@ -118,5 +118,16 @@ describe('Gallery routes', function() {
         done();
       });
     });
+    
+    it.only('should throw an error if given the wrong credentials', done => {
+      request.get(`${url}/api/gallery/${this.tempGallery._id}`)
+      .set({
+        Authorization: `Bearer `,
+      })
+      .end((err, res) => {
+        expect(res.status).to.equal(401);
+        done();
+      });
+    });
   });
 });
