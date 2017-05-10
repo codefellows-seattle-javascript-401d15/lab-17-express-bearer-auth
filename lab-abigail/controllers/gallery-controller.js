@@ -17,3 +17,37 @@ exports.createItem = function(req, res, gallery, userId) {
     console.log(err);
   });
 };
+
+exports.fetchItem = function(req, res, id, userId) {
+
+  if(!id) return Promise.reject(createError(400, 'bad request'));
+
+  Gallery.findById(id)
+  .then(gallery => {
+    if(gallery.userId.toString() !== userId.toString()) {
+      return createError(401, 'Invalid user');
+    }
+    res.json(gallery);
+  })
+  .catch(err => res.status(err.status).send(err.message));
+};
+
+exports.deleteItem = function(req, res, id, userId) {
+
+  if(!id) return Promise.reject(createError(400, 'bad request'));
+
+  Gallery.findById(id)
+  .then(gallery => {
+    if(gallery.userId.toString() !== userId.toString()) {
+      return createError(401, 'Invalid user');
+    }
+    res.json(gallery);
+  });
+
+  Gallery.findByIdAndRemove(id)
+  .then( () => {
+    res.sendStatus(204);
+  })
+  .catch(err => res.status(404).send(err.message));
+
+};
