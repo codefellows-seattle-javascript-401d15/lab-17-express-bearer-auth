@@ -18,7 +18,7 @@ exports.addPicture = function(req, res) {
 };
 
 exports.getPicture = function(req, res, id, userId) {
-  if(!id) return Promise.reject(createError(400, 'Track ID required'));
+  if(!id) return Promise.reject(createError(400, 'ID required'));
   
   Gallery.findById(id)
   .then(gallery => {
@@ -30,18 +30,18 @@ exports.getPicture = function(req, res, id, userId) {
   .catch(err => console.error(err));
 };
 
-exports.updatePicture = function(req, res) {
-  if(!req) return Promise.reject(createError(400, 'Track ID required'));
+exports.updatePicture = function(req, res, gallery, id) {
+  if(!gallery) return Promise.reject(createError(400, 'ID required'));
   
-  Gallery.findOneAndUpdate(req.params.id, req.body, {new: true})
+  Gallery.findOneAndUpdate(id, req.body, {new: true})
   .then(pic => res.json(pic))
-  .catch(err => res.status(400).send(err.message));
+  .catch(err => console.error(err));
 };
 
-exports.deletePicture = function(req, res) {
-  if(!req) return Promise.reject(createError(400, 'Track ID required'));
+exports.deletePicture = function(req, res, id) {
+  if(!id) return Promise.reject(createError(400, 'ID required'));
 
-  Gallery.findByIdAndRemove(req.params.id)
+  Gallery.findByIdAndRemove(id)
   .then(() => res.status(204).send())
   .catch(err => res.send(err));
 };

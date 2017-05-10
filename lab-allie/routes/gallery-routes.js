@@ -17,12 +17,12 @@ module.exports = function(router) {
   
   router.put('/gallery/:id', bearerAuth, (req, res) => {
     debug('#PUT /api/gallery/:id');
-    galleryCtrl.updatePicture(req.auth, res);
+    galleryCtrl.updatePicture(req, res, req.body, req.params.id);
   });
   
   router.delete('/gallery/:id', bearerAuth, (req, res) => {
     debug('#DELETE /api/gallery/:id');
-    galleryCtrl.deletePicture(req.auth, res);
+    galleryCtrl.deletePicture(req, res, req.params.id);
   });
   
   return router;
