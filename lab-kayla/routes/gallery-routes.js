@@ -15,7 +15,30 @@ module.exports = function(router) {
     .catch(err => res.status(err.status).send(err.message))
   })
 
-  
+  router.get('/gallery', bearerAuth, (req, res) => {
+    debug('#GET /api/gallery/:id')
 
+    Gallery.findById(req.params.id)
+    .then(gallery => {
+      if(gallery.userId.toString() !== req.user._id.toString()) {
+        return createError(401, 'Invalid user')
+      }
+      res.json(gallery)
+    })
+    .catch(err => res.status(err.status).send(err.message))
+  })
+
+  router.put('/gallery', bearerAuth, (req, res) => {
+    debug('#PUT /api/gallery/:id')
+
+
+  })
+
+
+  router.delete('/gallery', bearerAuth, (req, res) => {
+    debug('#DELETE /api/gallery')
+
+    
+  })
   return router
 }
