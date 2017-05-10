@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const Promise = require('bluebird');
 const User = require('../models/user');
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/test-dev';
+// const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/test-dev';
+
 
 require('../server.js');
 mongoose.Promise = Promise;
