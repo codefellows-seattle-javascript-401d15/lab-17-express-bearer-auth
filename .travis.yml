@@ -3,6 +3,8 @@ node_js:
   - '7.9.0'
 services:
   - mongodb
+env:
+  - CXX=g++-4.8
 addons:
   apt:
     sources:
