@@ -42,7 +42,8 @@ exports.deleteItem = function(req, res, id, userId) {
       return createError(401, 'Invalid user');
     }
     res.json(gallery);
-  });
+  })
+  .catch(err => console.log(err));
 
   Gallery.findByIdAndRemove(id)
   .then( () => {
@@ -50,4 +51,18 @@ exports.deleteItem = function(req, res, id, userId) {
   })
   .catch(err => res.status(404).send(err.message));
 
+};
+
+exports.updateItem = function(req, res, id, userId, gallery) {
+
+  if(!id) return Promise.reject(createError(404, 'not found'));
+
+  Gallery.findByIdAndUpdate(id, gallery, {new: true})
+  .then(gallery => {
+    if(gallery.userId.toString() !== userId.toString()) {
+      return createError(401, 'Invalid user');
+    }
+    res.json(gallery);
+  })
+  .catch(err => console.log('Find by Id and Update Error', err));
 };

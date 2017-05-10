@@ -22,6 +22,12 @@ module.exports = function(router) {
     debug('#DELETE /api/gallery/:id');
     galleryController.deleteItem(req, res, req.params.id, req.user_id);
   });
-  
+
+  router.put('/gallery/:id', bearerAuth, (req, res) => {
+    debug('#PUT /api/gallery/:id');
+    console.log('routes', req.user._id);
+    galleryController.updateItem(req, res, req.params.id, req.user._id, req.body);
+
+  });
   return router;
 };
