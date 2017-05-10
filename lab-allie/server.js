@@ -15,7 +15,7 @@ const router = express.Router();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/cfgram-dev';
 
-const authRoutes = require('./routes/auth-routes.js')(router);
+const authRoutes = require('./routes/user-routes.js')(router);
 const galleryRoutes = require('./routes/gallery-routes.js')(router);
 
 mongoose.Promise = Promise;

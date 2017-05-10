@@ -2,7 +2,7 @@
 
 const createError = require('http-errors');
 const Promise = require('bluebird');
-const Gallery = require('../model.album.js');
+const Gallery = require('../models/gallery.js');
 
 module.exports = exports = {};
 
@@ -11,6 +11,7 @@ exports.addPicture = function(req, res) {
   
   new Gallery(req.body).save()
   .then(gallery => res.json(gallery))
+  .then(gallery => console.log('gallery', res.json(gallery)))
   .catch(err => {
     console.log(err);
     res.status(err.status).send(err.message);

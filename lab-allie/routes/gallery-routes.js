@@ -1,7 +1,7 @@
 'use strict';
 
 const galleryCtrl = require('../controller/gallery-controller.js');
-const basicAuth = require('../lib/basic-auth-middleware.js');
+const bearerAuth = require('../lib/bearer-auth-middleware.js');
 
 module.exports = function(router) {
   router.post('/gallery', bearerAuth, (req, res) => {
