@@ -2,7 +2,7 @@
 
 const debug = require('debug')('cfgram:auth-routes');
 const basicAuth = require('../lib/basic-auth-middleware');
-const userCtrl = require('../controllers/user-controller');
+const userCtrl = require('../controllers/auth-controller');
 
 module.exports = function(router) {
 

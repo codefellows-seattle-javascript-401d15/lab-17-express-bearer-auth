@@ -12,8 +12,6 @@ const Promise = require('bluebird');
 
 mongoose.Promise = Promise;
 
-chai.use(http);
-
 const sampleUser = {
   username: 'testUser',
   password: '1234',
@@ -24,6 +22,8 @@ const sampleGallery = {
   name: 'test gallery',
   desc: 'test gallery description',
 };
+
+chai.use(http);
 
 mongoose.Promise = Promise;
 
