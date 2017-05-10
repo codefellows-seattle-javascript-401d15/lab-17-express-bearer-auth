@@ -23,6 +23,6 @@ module.exports = function(req, res,  next) {
       req.user = user[0];
       next();
     })
-    .catch(err => next(createError(4-1, err.message)));
+    .catch(err => next(createError(401, err.message)));
   });
 };

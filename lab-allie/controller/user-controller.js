@@ -7,7 +7,8 @@ const User = require('../models/user.js');
 module.exports = exports = {};
 
 exports.signUp = function(req, res) {
-  let tempPassword = req.body.password;
+  let tempPassword = null;
+  tempPassword = req.body.password;
   req.body.password = null;
   delete req.body.password;
   

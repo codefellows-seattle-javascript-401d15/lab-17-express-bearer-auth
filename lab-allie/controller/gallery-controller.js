@@ -11,7 +11,10 @@ exports.addPicture = function(req, res) {
   
   new Gallery(req.body).save()
   .then(gallery => res.json(gallery))
-  .catch(err => res.status(err.status).send(err.message));
+  .catch(err => {
+    console.log(err);
+    res.status(err.status).send(err.message);
+  });
 };
 
 exports.getPicture = function(req, res) {
@@ -36,7 +39,7 @@ exports.updatePicture = function(req, res) {
 };
 
 exports.deletePicture = function(req, res) {
-  if(!reqAuth) return Promise.reject(createError(400, 'Track ID required'));
+  if(!req) return Promise.reject(createError(400, 'Track ID required'));
 
   Gallery.findByIdAndRemove(req.params.id)
   .then(() => res.status(204).send())
