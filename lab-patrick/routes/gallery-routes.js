@@ -9,7 +9,7 @@ module.exports = function(router){
 
     galleryCtrl.createItem(req.body, req.user)
     .then(gallery => res.json(gallery))
-    .catch(err => console.error(err));
+    .catch(err => res.status(err.status).send(err.message));
   });
 
   router.get('/gallery/:id', bearerAuth, (req, res) =>{
@@ -22,5 +22,12 @@ module.exports = function(router){
      })
    .catch(err => res.status(err.status).send(err.message));
   });
+
+  router.put('/gallery/:id', bearerAuth, (req, res) =>{
+    return galleryCtrl.updateItem(req, res, req.params.id)
+    .then(gallery => res.json(gallery))
+    .catch(err => res.status(err.status).send(err.message));
+  });
+
   return router;
 };
