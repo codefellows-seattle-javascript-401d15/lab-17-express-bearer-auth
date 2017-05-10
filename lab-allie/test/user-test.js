@@ -22,7 +22,7 @@ describe('Testing auth routes', function() {
   describe('Testing user POST route', function() {
     after(done => {
       User.remove({})
-      .then (() => done());
+      .then(() => done());
     });
     
     it('should return a token', done => {
@@ -31,39 +31,69 @@ describe('Testing auth routes', function() {
       .end((err, res) => {
         if (err) return done(err);
         expect(res.text).to.be.a('string');
+        expect(res.status).to.equal(200);
         done();
       });
     });
   });
   
   describe('Testing user GET route', function() {
-    before(done => {
-      let user = new User(testUser);
-      user.generatePasswordHash(testUser.password)
-      .then(user => user.save())
-      .then(user => {
-        this.tempUser = user;
-        done();
-      })
-      .catch(done);
-    });
-    
-    it('should return a token', done => {
-      request.get(`${url}/api/signin`)
-      .auth('testy', 'abc123')
-      .end((err, res) => {
-        if (err) return done(err);
-        expect(res.status).to.equal(200);
-        done();
+    describe('Checking for token', function() {
+      before(done => {
+        let user = new User(testUser);
+        user.generatePasswordHash(testUser.password)
+        .then(user => user.save())
+        .then(user => {
+          this.tempUser = user;
+          done();
+        })
+        .catch(done);
+      });
+      
+      it('should return a token', done => {
+        request.get(`${url}/api/signin`)
+        .auth('testy', 'abc123')
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(res.status).to.equal(200);
+          done();
+        });
+      });
+      
+      after(done => {
+        User.remove({})
+        .then(() => done())
+        .catch(done);
       });
     });
     
-    
-    
-    after(done => {
-      User.remove({})
-      .then(() => done())
-      .catch(done);
+    describe('checking for status', function() {
+      before(done => {
+        let user = new User(testUser);
+        user.generatePasswordHash(testUser.password)
+        .then(user => user.save())
+        .then(user => {
+          this.tempUser = user;
+          done();
+        })
+        .catch(done);
+      });
+      
+      it('should return an error on a bad request', done => {
+        request.get(`${url}`)
+        .auth('', '')
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(res.status).to.equal(404);
+          done();
+        });
+      });
+      
+      after(done => {
+        User.remove({})
+        .then(() => done())
+        .catch(done);
+      });
     });
   });
 });

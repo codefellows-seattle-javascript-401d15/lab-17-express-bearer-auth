@@ -22,10 +22,7 @@ exports.signUp = function(req, res) {
   .then(token => {
     res.json(token);
   })
-  .catch(err => {
-    console.error(err);
-    res.status(err.status).send(err);
-  });
+  .catch(err => createError(404, err.message));
 };
 
 exports.signIn = function(reqAuth, res) {
