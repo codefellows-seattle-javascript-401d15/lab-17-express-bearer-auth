@@ -1,7 +1,7 @@
 'use strict';
 
 const createError = require('http-errors');
-const Gallery = requre('../models/gallery');
+const Gallery = require('../models/gallery');
 const debug = require('debug')('cfgram:gallery-routes');
 const bearerAuth = require('../lib/bearer-auth-middleware');
 
