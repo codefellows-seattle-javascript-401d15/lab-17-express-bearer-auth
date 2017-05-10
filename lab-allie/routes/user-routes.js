@@ -9,7 +9,9 @@ module.exports = function(router) {
   });
   
   router.get('/signin', basicAuth, (req, res) => {
-    userCtrl.signIn(req.auth, res);
+    userCtrl.signIn(req.auth, res)
+    .then(token => res.json(token))
+    .catch(err => res.status(err.status).send(err));
   });
   
   return router;

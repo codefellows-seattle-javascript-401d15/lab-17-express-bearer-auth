@@ -64,8 +64,8 @@ userSchema.methods.generateToken = function() {
   return new Promise((resolve, reject) => {
     console.log('secret', process.env.APP_SECRET);
     this.generateFindHash()
-    .then(findHash => resolve(jwt.sign({token: findHash}, process.env.APP_SECRET)))
-    .then(token => console.log('token', token))
+    .then(findHash => jwt.sign({token: findHash}, process.env.APP_SECRET))
+    .then(token => resolve(token))
     .catch(err => {
       console.log(err);
       return reject(createError(401, 'Generate token failed'));

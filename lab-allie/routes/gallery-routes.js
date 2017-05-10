@@ -2,6 +2,8 @@
 
 const galleryCtrl = require('../controller/gallery-controller.js');
 const bearerAuth = require('../lib/bearer-auth-middleware.js');
+const debug = require('debug')('cfgram:user-model');
+
 
 module.exports = function(router) {
   router.post('/gallery', bearerAuth, (req, res) => {

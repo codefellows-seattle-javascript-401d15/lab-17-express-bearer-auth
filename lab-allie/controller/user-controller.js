@@ -32,6 +32,6 @@ exports.signIn = function(reqAuth, res) {
   return User.findOne({username: reqAuth.username})
   .then(user => user.comparePasswordHash(reqAuth.password))
   .then(user => user.generateToken())
-  .then(token => res.json(token))
-  .catch(err => res.status(err.status).send(err));
+  .then(token => token)
+  .catch(err => createError(404, err.message));
 };
