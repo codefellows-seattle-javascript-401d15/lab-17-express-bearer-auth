@@ -5,7 +5,7 @@ require('dotenv').load();
 const express = require('express');
 const cors = require('cors');
 const Promise = require('bluebird');
-const errorHandler = require('./lib/error-middleware');
+const errorHandler = require('./lib/err-middleware');
 const authRoutes = require('./route/auth-routes');
 const galleryRoutes = require('./route/gallery-routes');
 const bodyParser = require('body-parser').json();
