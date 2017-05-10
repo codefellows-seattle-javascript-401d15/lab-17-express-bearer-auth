@@ -8,8 +8,8 @@ const bearerAuth = require('../lib/bearer-auth-middleware');
 module.exports = function(router) {
 
   router.post('/gallery', bearerAuth, (req, res) => {
-    galleryController.createItem(req, res, req.body, req.user._id);
     debug('#POST /api/gallery');
+    galleryController.createItem(req, res, req.body, req.user._id);
 
   });
 
@@ -25,7 +25,6 @@ module.exports = function(router) {
 
   router.put('/gallery/:id', bearerAuth, (req, res) => {
     debug('#PUT /api/gallery/:id');
-    console.log('routes', req.user._id);
     galleryController.updateItem(req, res, req.params.id, req.user._id, req.body);
 
   });
