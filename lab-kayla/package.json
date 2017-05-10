@@ -7,15 +7,25 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "mocha",
+    "start": "node server.js",
+    "debug": "DEBUG=cfgram* nodemon server.js",
+    "cover": "istanbul cover _mocha",
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
+    "bcrypt": "^1.0.2",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
+    "cors": "^2.8.3",
+    "crypto": "0.0.3",
+    "debug": "^2.6.6",
+    "dotenv": "^4.0.0",
     "express": "^4.15.2",
+    "http-errors": "^1.6.1",
     "jsonwebtoken": "^7.4.0",
     "mongoose": "^4.9.8",
     "morgan": "^1.8.1"
