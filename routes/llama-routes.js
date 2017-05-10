@@ -30,6 +30,7 @@ module.exports = function(router) {
     })
     .catch(err => res.status(err.status).send(err.message));
   });
+
   router.put('/api/llama', bearerAuth, (req, res) => {
     debug('#PUT /api/llama/');
 
@@ -41,6 +42,18 @@ module.exports = function(router) {
       res.json(llama);
     });
   });
+
+  router.delete('/api/remove', bearerAuth, (req, res) => {
+    debug('#DELETE /api/llama');
+
+    Llama.findById(req.params.id)
+    .then(llama => {
+      if(llama.userId.toString() !== req.user._id.toString()) {
+        return createError(400, 'Llama will not be removed.');
+      }
+      res.json(llama)
+    })
+  })
 
   return router;
 };
