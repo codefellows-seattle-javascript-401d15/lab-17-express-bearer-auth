@@ -23,5 +23,21 @@ module.exports = function(router) {
     .catch(err => res.status(err.status).send(err.message));
   });
 
+  router.put('/gallery/:id', bearerAuth, (req, res) => {
+    debug('#PUT /api/gallery/:id');
+
+    return galleryController.updateGallery(req.params.id, req.user._id, req.body)
+    .then(gallery => res.json(gallery))
+    .catch(err => res.status(err.status).send(err.message));
+  });
+
+  router.delete('/gallery/:id', bearerAuth, (req, res) => {
+    debug('#DELETE /api/gallery/:id');
+
+    return galleryController.deleteGallery(req.params.id, req.user._id)
+    .then(() => res.status(204).send())
+    .catch(err => res.status(err.status).send(err.message));
+  });
+
   return router;
 };
