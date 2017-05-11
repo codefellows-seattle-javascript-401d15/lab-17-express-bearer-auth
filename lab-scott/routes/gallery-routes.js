@@ -19,7 +19,9 @@ module.exports = function(router){
 
   router.put('/gallery/:id', bearerAuth, (req,res) => {
     debug('#PUT /api/gallery/:id')
-    GalleryCtrl.updateGal()
+    return GalleryCtrl.updateGal(rep.params.id, req.user._id, req.body)
+      .then(gallery => res.gallery)
+      .catch(err => res.status(err.status).send(err.message))
   })
 
   router.delete('/gallery/:id', bearerAuth, (req,res) => {
