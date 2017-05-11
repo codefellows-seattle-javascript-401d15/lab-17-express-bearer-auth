@@ -12,8 +12,7 @@ module.exports = exports = {}
 exports.createGallery = function(gallery){
   debug('#createGallery')
   if(!gallery) return Promise.reject(createError(400, '!!no gallery!!'))
-  let newGallery = new Gallery(gallery)
-  return newGallery(gallery).save()
+  return new Gallery(gallery).save()
 }
 
 exports.fetchGallery = function(id){
