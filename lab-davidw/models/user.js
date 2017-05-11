@@ -14,17 +14,16 @@ const userSchema = Schema({
   username: {type: String, required: true, unique: true},
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  findHash: {type: String, required: true},
+  findhash: {type: String, unique: true},
 });
 
 userSchema.methods.generatePasswordHash = function(password) {
   debug('#generatePasswordHash');
 
   return new Promise((resolve, reject) => {
-    bcrypt.compare(password, this.password, (err, valid) => {
-      if(err) return reject(createError(401, 'Password validation failed'));
-      if(!valid) return reject(createError(401, 'Wrong password'));
-
+    bcrypt.hash(password, 10, (err, hash) =>{
+      if(err) return reject(err);
+      this.password = hash;
       resolve(this);
     });
   });
@@ -35,7 +34,7 @@ userSchema.methods.comparePasswordHash = function(password) {
 
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, this.password, (err, valid) => {
-      if(err) return reject(createError(401, 'Password validation failed'));
+      if(err) return reject(createError(401, 'Password invalid'));
       if(!valid) return reject(createError(401, 'Wrong password'));
 
       resolve(this);
@@ -53,8 +52,7 @@ userSchema.methods.generateFindHash = function() {
       this.save()
       .then(() => resolve(this.findHash))
       .catch(err => {
-        console.log(err);
-        if(tries > 3) return reject(createError(401, 'Generate findhash failed'));
+        if(tries > 3) return reject(err);
         tries++;
         _generateFindHash();
       });
@@ -66,11 +64,13 @@ userSchema.methods.generateFindHash = function() {
 
 userSchema.methods.generateToken = function() {
   debug('#generateToken');
+
   return new Promise((resolve, reject) => {
+    console.log(process.env.APP_SECRET);
     this.generateFindHash()
     .then(findHash => resolve(jwt.sign({token: findHash}, process.env.APP_SECRET)))
     .catch(err => {
-      console.log(err);
+      console.error(err);
       reject(createError(401, 'Generate token failed'));
     });
   });

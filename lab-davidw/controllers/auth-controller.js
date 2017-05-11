@@ -6,9 +6,9 @@ const User = require('../models/user');
 
 module.exports = exports = {};
 
-exports.createuser = function(req, res, user) {
+exports.createUser = function(req, res) {
 
-  if(!user) return Promise.reject(createError(400, 'Bad request'));
+  if(!req) return Promise.reject(createError(400, 'Bad request'));
 
   let tempPassword = req.body.password;
   req.body.password = null;
@@ -21,7 +21,7 @@ exports.createuser = function(req, res, user) {
   .then(user => user.generateToken())
   .then(token => res.json(token))
   .catch(err => {
-    console.log(err);
+    res.send(err);
   });
 };
 
