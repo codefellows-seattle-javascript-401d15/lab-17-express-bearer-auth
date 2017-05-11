@@ -8,19 +8,18 @@ module.exports = exports = {};
 
 exports.createItem = function(req, res, gallery, userId) {
 
-  if(!gallery) return Promise.reject(createError(400, 'bad request'));
+  if(!gallery) return Promise.reject(createError(400, 'Bad Request'));
 
   gallery.userId = userId;
   new Gallery(gallery).save()
   .then(gallery => res.json(gallery))
-  .catch(err => {
-    console.log(err);
-  });
+  .catch(err => res.status(err.status).send(err));
+
 };
 
 exports.fetchItem = function(req, res, id, userId) {
 
-  if(!id) return Promise.reject(createError(400, 'bad request'));
+  if(!id) return Promise.reject(createError(400, 'Bad Request'));
 
   Gallery.findById(id)
   .then(gallery => {
@@ -34,7 +33,7 @@ exports.fetchItem = function(req, res, id, userId) {
 
 exports.deleteItem = function(req, res, id, userId) {
 
-  if(!id) return Promise.reject(createError(400, 'bad request'));
+  if(!id) return Promise.reject(createError(400, 'Bad Request'));
 
   Gallery.findById(id)
   .then(gallery => {
@@ -47,7 +46,7 @@ exports.deleteItem = function(req, res, id, userId) {
   .then( () => {
     res.sendStatus(204);
   })
-  .catch(err => res.status(404).send(err.message));
+  .catch(err => res.status(err.status).send(err));
 
 };
 
@@ -62,5 +61,5 @@ exports.updateItem = function(req, res, id, userId, gallery) {
     }
     res.json(gallery);
   })
-  .catch(err => console.log('Find by Id and Update Error', err));
+  .catch(err => res.status(err.status).send(err));
 };
