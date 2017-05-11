@@ -6,37 +6,38 @@ const createError = require('http-errors');
 
 module.exports = exports = {};
 
-exports.createNewGallery = function(reqGaller, reqUserId, res){
+exports.createNewGallery = function(reqGaller, reqUser){
   debug('#createNewGallery');
 
-  reqGaller.userId = reqUserId;
-  new Gallery(reqGaller).save()
-  .then(gallery => res.json(gallery))
+  reqGaller.userId = reqUser._id;
+  return new Gallery(reqGaller).save()
+  .then(gallery => gallery)
   .catch(err => {
-    console.log(err);
-    res.status(err.status).send(err.message);
+    return createError(404, err.message);
   });
 };
 
-exports.fetchGallery = function(id, reqUserId, res){
-  Gallery.findById(id)
+exports.fetchGallery = function(reqUser, galId){
+  debug('#fetchGallery');
+  return Gallery.findById(galId)
+  .then(gallery => gallery)
+  .catch(err => createError(404, err.message));
+};
+
+exports.updateGallery = function(reqGaller, galId, userId){
+  return Gallery.findOneAndUpdate({_id: galId, useId: userId}, reqGaller, {new:true})
   .then(gallery => {
-    if(gallery.userId.toString() !== reqUserId.toString()) {
-      return createError(401, 'Invalid user');
-    }
-    res.json(gallery);
+    if(gallery === null) return createError(404, 'Gallery not found');
+    return gallery;
   })
-  .catch(err => res.status(err.status).send(err.message));
+  .catch(err => createError(404, err.message));
 };
 
-exports.updateGallery = function(req, res, reqGaller, userId){
-  Gallery.findOneAndUpdate(userId, req.body, {new:true})
-  .then(gallery => res.json(gallery))
-  .catch(err => res.status(err.status).send(err.message));
-};
-
-exports.deleteGallery = function(req, res, userId){
-  Gallery.findOneAndRemove(userId)
-  .then(() => res.status(204).send())
-  .catch(err => res.status(err.status).send(err.message));
+exports.deleteGallery = function(galId, userId){
+  return Gallery.findOneAndRemove({_id: galId, useId: userId})
+  .then(gallery => {
+    if(gallery === null) return createError(404, 'Gallery Not Found');
+    return gallery;
+  })
+  .catch(err => createError(404, err.message));
 };
