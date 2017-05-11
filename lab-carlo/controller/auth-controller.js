@@ -15,8 +15,8 @@ exports.createUser = function(req, res) {
   return newUser.generatePasswordHash(tempPassword)
   .then(user => user.save())
   .then(user => user.generateToken())
-  .then(token => res.json(token))
-  .catch(err => console.error(err));
+  // .then(token => res.json(token))
+   .catch(err => res.status(err.status).send(err.message));
 };
 
 exports.fetchUser = function(res, auth) {
@@ -25,7 +25,7 @@ exports.fetchUser = function(res, auth) {
   return User.findOne({username: auth.username})
   .then(user => user.comparePasswordHash(auth.password))
   .then(user => user.generateToken())
-  .then(token => res.json(token))
-  .catch(err => console.error(err));
+  // .then(token => res.json(token))
+  .catch(err => res.status(err.status).send(err.message));
 
 };
