@@ -1,6 +1,6 @@
 {
   "rules": {
-    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "quotes": ["error", 0, { "allowTemplateLiterals": true }],
     "comma-dangle": ["error", "always-multiline"],
     "no-console": "off",
     "indent": [ "error", 2 ],
