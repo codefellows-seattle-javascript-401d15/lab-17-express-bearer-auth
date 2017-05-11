@@ -26,12 +26,7 @@ exports.updateGallery = function(id, gallery){
   if(!id) return Promise.reject(createError(400, '!!no id!!'))
   if(!gallery) return Promise.reject(createError(400, '!!no gallery!!'))
   return Gallery.findByIdAndUpdate(id, gallery, {new: true})
-  .then(gallery => {
-    // if (gallery.userId.toString() !== userId.toString()) {
-    //   return Promise.reject(createError(401, 'Invalid userid'));
-    // }
-    return Promise.resolve(gallery)
-  })
+  .then(gallery => Promise.resolve(gallery))
   .catch(() => Promise.reject(createError(404, 'gallery not found')))
 }
 
@@ -39,7 +34,7 @@ exports.deleteGallery = function(id){
   debug('#deleteGallery')
   if(!id) return Promise.reject(createError(400, '!!no id, id required'))
   Gallery.findById(id)
-  .then()
+  .then(gallery => console.log(`Gallery DELETED: \n`, gallery))
   .catch(err => Promise.reject(err))
 
   return Gallery.findByIdAndRemove(id)
