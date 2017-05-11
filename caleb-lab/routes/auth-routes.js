@@ -8,11 +8,11 @@ module.exports = function(router){
   router.post('/signup', (req, res) => {
     debug('POST /signup');
 
-    let tempPassword = req.body.password;
-    req.body.password = null;
-    delete req.body.password;
-    userCtrl.createUser(req.body, tempPassword)
-    .then(token => res.json(token))
+    return userCtrl.createUser(req.body)
+    .then(token => {
+      console.log('userCtrl createUser', token);
+      res.json(token)
+    })
     .catch(err => res.status(err.status).send(err));
   });
 

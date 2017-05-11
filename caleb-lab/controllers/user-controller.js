@@ -1,29 +1,42 @@
-'use strict';
+'use strict'
 
-const Promise = require('bluebird');
-const User = require('../models/user.js');
-const debug = require('debug')('cfgram:user-controller');
-const createError = require('http-errors');
-const mongoose = require('mongoose');
-mongoose.Promise = Promise;
+const Promise = require('bluebird')
+const User = require('../models/user.js')
+const debug = require('debug')('cfgram:user-controller')
+const createError = require('http-errors')
+const mongoose = require('mongoose')
+mongoose.Promise = Promise
 
-module.exports = exports = {};
+module.exports = exports = {}
 
-exports.createUser = function(user, password){
-  debug('#createUser');
-  if(!user) return Promise.reject(createError(400, '!!No user!!'));
-  if(!password) return Promise.reject(createError(400, '!!no password!!'));
-  let newUser = new User(user);
-  return newUser.generatePasswordHash(password)
+exports.createUser = function(body){
+  debug('#createUser')
+  if(!body) return Promise.reject(createError(400, '!!No user!!'))
+  // if(!password) return Promise.reject(createError(400, '!!no password!!'))
+
+  let tempPassword = body.password
+  body.password = null
+  delete body.password
+
+  let newUser = new User(body)
+  return newUser.generatePasswordHash(tempPassword)
     .then(user => user.save())
-    .then(user => user.generateToken());
-};
+    .then(user => {
+
+      return user.generateToken()
+    })
+    .then(token => {
+      console.log('createUser--', token)
+      return Promise.resolve(token)
+    })
+    .catch(err => Promise.reject(err))
+}
 
 exports.fetchUser = function(auth){
-  debug('#fetchUser');
+  debug('#fetchUser')
   return User.findOne({username: auth.username})
   .then(user => user.comparePasswordHash(auth.password))
   .then(user => user.generateToken())
   .then(token => Promise.resolve(token))
-  .catch(err => Promise.reject(err));
-};
+  .catch(err => Promise.reject(err))
+}
