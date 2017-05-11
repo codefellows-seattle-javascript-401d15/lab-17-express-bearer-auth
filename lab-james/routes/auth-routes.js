@@ -10,7 +10,6 @@ module.exports = function(router) {
     debug('POST /signup');
 
     return userController.createUser(req.body)
-
     .then(token => {
       res.json(token);
     })
