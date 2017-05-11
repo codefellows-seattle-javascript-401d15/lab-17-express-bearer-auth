@@ -12,11 +12,12 @@ module.exports = function(req, res, next){
   if(!authHeaders) return next(createError(401, 'authorization headers required'))
   let token = authHeaders.split('Bearer ')[1]
   if(!token) return next(createError(401, 'token required'))
+
   jwt.verify(token, process.env.APP_SECRET, (err, decoded) => {
     if(err) return next(err)
-    User.find({findHash: decoded.token})
+    User.findOne({findHash: decoded.token})
     .then(user => {
-      req.user = user[0]
+      req.user = user
       next()
     })
     .catch(err => next(createError(401, err.message)))

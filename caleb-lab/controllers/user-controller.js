@@ -1,11 +1,8 @@
 'use strict'
 
-const Promise = require('bluebird')
 const User = require('../models/user.js')
 const debug = require('debug')('cfgram:user-controller')
 const createError = require('http-errors')
-const mongoose = require('mongoose')
-mongoose.Promise = Promise
 
 module.exports = exports = {}
 
@@ -21,14 +18,8 @@ exports.createUser = function(body){
   let newUser = new User(body)
   return newUser.generatePasswordHash(tempPassword)
     .then(user => user.save())
-    .then(user => {
-
-      return user.generateToken()
-    })
-    .then(token => {
-      console.log('createUser--', token)
-      return Promise.resolve(token)
-    })
+    .then(user => user.generateToken())
+    .then(token => Promise.resolve(token))
     .catch(err => Promise.reject(err))
 }
 
