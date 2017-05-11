@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 const router = express.Router();
-const authRoutes = require('./routes/user-routes')(router);
+const userRouter = require('./routes/user-routes')(router);
 const galleryRoutes = require('./routes/gallery-routes')(router);
 
 const PORT = process.env.PORT || 3000;
@@ -24,7 +24,7 @@ app.use(cors());
 app.use(errorHandler);
 app.use(bodyParser);
 
-app.use('/api', authRoutes);
+app.use('/api', userRouter);
 app.use('/api', galleryRoutes);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

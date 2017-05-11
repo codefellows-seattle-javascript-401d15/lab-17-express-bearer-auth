@@ -29,5 +29,9 @@ module.exports = function(router){
     .catch(err => res.status(err.status).send(err.message));
   });
 
+  router.delete('/gallery/:id', bearerAuth, (req, res)=> {
+    galleryCtrl.deleteItem(req, res, req.params.id);
+  });
+
   return router;
 };

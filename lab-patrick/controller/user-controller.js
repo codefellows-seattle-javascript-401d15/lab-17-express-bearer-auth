@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 module.exports = exports ={};
 
-exports.createItem = function(req){
+exports.createItem = function(req, res){
 
   let tempPassword = null;
   tempPassword = req.body.password;
@@ -17,7 +17,8 @@ exports.createItem = function(req){
 
   return newUser.generatePasswordHash(tempPassword)
   .then(user => user.save())
-  .then(user => user.generateToken());
+  .then(user => user.generateToken())
+  .catch(err => res.status(err.status).send(err.message));
 };
 
 exports.fetchItem = function(res, reqAuth){
@@ -26,6 +27,7 @@ exports.fetchItem = function(res, reqAuth){
 
   return User.findOne({username: reqAuth.username})
   .then(user => user.comparePasswordHash(reqAuth.password))
-  .then(user => user.generateToken());
+  .then(user => user.generateToken())
+  .catch(err => res.status(err.status).send(err.message));
 
 };
