@@ -11,7 +11,6 @@ require('../server');
 
 const url = `http://localhost:${process.env.PORT}`;
 
-
 const exampleUser = {
   username: 'exampleuser',
   password: '1234',
@@ -21,6 +20,11 @@ const exampleUser = {
 const exampleGallery = {
   name: 'test gallery',
   desc: 'test gallery description',
+};
+
+const invalidGallery = {
+  name: 'invalid gallery',
+  desc: 'invalid gallery description',
 };
 
 mongoose.Promise = Promise;
@@ -51,7 +55,7 @@ describe('Gallery Routes', function() {
       .catch(() => done());
     });
 
-    it.only('should return a gallery', done => {
+    it('should return a gallery', done => {
       request.post(`${url}/api/gallery`)
       .send(exampleGallery)
       .set({
@@ -66,6 +70,19 @@ describe('Gallery Routes', function() {
         expect(res.body.desc).to.equal(exampleGallery.desc);
         expect(res.body.userId).to.equal(this.tempUser._id.toString());
         expect(date).to.not.equal('Invalid Date');
+        done();
+      });
+    });
+
+
+    it('should not result with invalid gallery values', done => {
+      request.post(`${url}/api/gallery`)
+      .send(exampleGallery)
+      .set({
+        Authorization: `Invalid Authorization`,
+      })
+      .end(res => {
+        expect(res.status).to.equal(401);
         done();
       });
     });
@@ -104,14 +121,14 @@ describe('Gallery Routes', function() {
     it('should return a gallery', done => {
       request.get(`${url}/api/gallery/${this.tempGallery._id}`)
       .set({
-        Authorization: `Bearer ${this.tempToken}`
+        Authorization: `Bearer ${this.tempToken}`,
       })
       .end((err, res) => {
         if (err) return done(err);
         let date = new Date(res.body.created).toString();
         expect(res.body.name).to.equal(exampleGallery.name);
         expect(res.body.desc).to.equal(exampleGallery.desc);
-        expect(res.body.userId).to.equal(this.tempUser._id.toString())
+        expect(res.body.userId).to.equal(this.tempUser._id.toString());
         expect(date).to.not.equal('Invalid Date');
         done();
       });

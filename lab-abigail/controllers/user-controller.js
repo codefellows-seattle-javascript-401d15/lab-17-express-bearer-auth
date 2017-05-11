@@ -20,9 +20,8 @@ exports.createItem = function(req, res, user) {
   .then(user => user.save())
   .then(user => user.generateToken())
   .then(token => res.json(token))
-  .catch(err => {
-    console.log(err);
-  });
+  .catch(err => res.status(err.status).send(err));
+
 };
 
 exports.fetchItem = function(res, reqAuth) {
@@ -33,5 +32,5 @@ exports.fetchItem = function(res, reqAuth) {
   .then(user => user.comparePasswordHash(reqAuth.password))
   .then(user => user.generateToken())
   .then(data => res.json(data))
-  .catch(err => Promise.reject(err));
+  .catch(err => res.status(err.status).send(err));
 };
