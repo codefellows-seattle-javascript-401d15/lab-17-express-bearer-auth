@@ -29,16 +29,28 @@ module.exports = function(router) {
   })
 
   router.put('/gallery', bearerAuth, (req, res) => {
-    debug('#PUT /api/gallery/:id')
+    debug('#PUT /api/gallery')
 
-
+    Gallery.updateItem('galley', req.params.id, req.body)
+    .then(gallery => {
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.write(JSON.stringify(gallery));
+      res.end();
+    })
+    .catch(err => {
+      console.error(err);
+      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.write('not found');
+      res.end();
+    })
+    return
   })
 
 
   router.delete('/gallery', bearerAuth, (req, res) => {
     debug('#DELETE /api/gallery')
 
-    
+
   })
   return router
 }
