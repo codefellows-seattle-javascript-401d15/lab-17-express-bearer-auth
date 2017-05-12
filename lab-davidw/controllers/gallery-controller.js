@@ -3,65 +3,46 @@
 const Promise = require('bluebird');
 const createError = require('http-errors');
 const Gallery = require('../models/gallery');
+const debug = require('debug')('cfgram:gallery-controller');
 
 module.exports = exports = {};
 
-exports.createGallery = function(req, res, gallery, userId) {
+exports.createGallery = function(req) {
+  debug('#createGallery');
+  if(!req) return Promise.reject(createError(400, 'Bad request'));
 
-  if(!gallery) return Promise.reject(createError(400, 'Bad request'));
+  req.body.userId = req.user._id;
+  return new Gallery(req.body).save()
+  .then(gallery => gallery)
+  .catch(err => createError(401, err.message));
+};
 
-  gallery.userId = userId;
-  new Gallery(gallery).save()
-  .then(gallery => res.json(gallery))
-  .catch(err => {
-    console.log(err);
+exports.fetchGallery = function(req) {
+  debug('#fetchGallery');
+  if(!req.params.id) return Promise.reject(createError(400, 'Bad request'));
+  console.log(req.params.id);
+
+  return Gallery.findById(req.params.id)
+  .then(gallery => {
+    if(gallery.userId.toString() !== req.params.id.toString()) {
+      return createError(401, 'Invalid user')
+      .then(gallery => gallery)
+      .catch(err => createError(401, err.message));
+    }
   });
 };
 
-exports.fetchGallery = function(req, res, id, userId) {
+exports.deleteGallery = function(req) {
+  console.log('IDIDID?!?!', req.ObjectId);
+  debug('deleteGallery');
+  if(!req.params.id) return Promise.reject(createError(400, 'bad request'));
 
-  if(!id) return Promise.reject(createError(400, 'Bad request'));
-
-  Gallery.findById(id)
-  .then(gallery => {
-    if(gallery.userId.toString() !== userId.toString()) {
-      return createError(401, 'Invalid user');
-    }
-    res.json(gallery);
-  })
-  .catch(err => res.status(err.status).send(err.message));
+  return Gallery.findByIdAndRemove(req.params.id);
 };
 
-exports.deleteGallery = function(rreq, res, id, userId) {
+exports.updateGallery = function(req) {
+  debug('#updateGallery');
+  if(!req.params.id) return Promise.reject(createError(400, 'Id required'));
 
-  if(!id) return Promise.reject(createError(400, 'bad request'));
-
-  Gallery.findById(id)
-  .then(gallery => {
-    if(gallery.userId.toString() !== userId.toString()) {
-      return createError(401, 'Invalid user');
-    }
-    res.json(gallery);
-  })
-  .catch(err => console.log(err));
-
-  Gallery.findByIdAndRemove(id)
-  .then( () => {
-    res.sendStatus(204);
-  })
-  .catch(err => res.status(404).send(err.message));
-};
-
-exports.updateGallery = function(req, res, id, userId, gallery) {
-
-  if(!id) return Promise.reject(createError(404, 'Not found'));
-
-  Gallery.findByIdAndUpdate(id, gallery, {new: true})
-  .then(gallery => {
-    if(gallery.userId.toString() !== userId.toString()) {
-      return createError(401, 'Invalid user');
-    }
-    res.json(gallery);
-  })
-  .catch(err => console.log('update failed', err));
+  return Gallery.findOneAndUpdate(req.params.id, req.body, {new: true});
 };
