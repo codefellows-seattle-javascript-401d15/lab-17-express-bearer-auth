@@ -37,12 +37,17 @@ note: this is based on using 'HTTPie'
 ###### Gallery management
 You can sign up and sign in with the following end points:
 note: this is based on using 'HTTPie'
-- Sign up:
+- Create Gallery:
     - http POST
-        - http POST :3000/api/signup username=<UniqueUsername> password=<password> email=<UniqueEmail>
-- Sign in:
+        - http POST :3000/api/gallery username=<UniqueUsername> password=<password> email=<UniqueEmail>
+- Get Gallery array:
     - http GET
-        - http :3000/api/signin -a<username>:<password>
+        - http GET :3000/api/galllery/<galleryId> 'Authorization:Bearer <your token string here>'
+- Update Gallery:
+    - http PUT :3000/api/gallery/<galleryId> 'Authorization:Bearer <your token string here>'
+
+- Delete Gallery:
+    -http DELETE :3000/api/gallery/<galleryId> 'Authorization:Bearer <your token string here>'
 
 - Test!
    - npm run test
@@ -51,6 +56,8 @@ note: this is based on using 'HTTPie'
 ## Expected
 
 ##### EXAMPLE RESPONSES:
+
+###### User Management:
 - POST:
 ```
       HTTP/1.1 200 OK
@@ -77,6 +84,53 @@ note: this is based on using 'HTTPie'
   X-Powered-By: Express
 
   "<you will receive a unique token string here>"
+```
+
+###### Gallery Management:
+- POST:
+```
+      HTTP/1.1 200 OK
+  Access-Control-Allow-Origin: *
+  Connection: keep-alive
+  Content-Length: 207
+  Content-Type: application/json; charset=utf-8
+  Date: <date> GMT
+  ETag: W/"<etag>"
+  X-Powered-By: Express
+      {
+      "__v": <num>,
+      "name": "<name string>",
+      "desc": "<desc string>",
+      "userId": "<userId>",
+      "_id": "<galleryId",
+      "created": "<timestamp>"
+      }
+```
+
+- GET:
+```
+      HTTP/1.1 200 OK
+  Access-Control-Allow-Origin: *
+  Connection: keep-alive
+  Content-Length: 207
+  Content-Type: application/json; charset=utf-8
+  Date: <date> GMT
+  ETag: W/"<etag>"
+  X-Powered-By: Express
+
+  [<you will receive an array of objects contained in the Gallery>]
+```
+
+- DELETE
+```
+HTTP/1.1 204 OK
+  Access-Control-Allow-Origin: *
+  Connection: keep-alive
+  Content-Length: 207
+  Content-Type: application/json; charset=utf-8
+  Date: <date> GMT
+  ETag: W/"<etag>"
+  X-Powered-By: Express
 ```
 
 ### Attributions

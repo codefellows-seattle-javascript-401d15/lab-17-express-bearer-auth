@@ -24,12 +24,14 @@ exports.fetchGallery = function(req) {
   return Gallery.find(req.user, { _id : req.params.id})
   .then(gallery => gallery)
   .catch(err => createError(404, err.message));
+
 };
 
 exports.deleteGallery = function(req) {
   debug('deleteGallery');
   if(!req.user._id) return Promise.reject(createError(400, 'bad request'));
   if(!req.params.id) return Promise.reject(createError(400, 'bad request'));
+  console.log('gallery and user ID here is: ', { _id: req.params.id, userId: req.user._id});
 
   return Gallery.findOneAndRemove({ _id: req.params.id, userId: req.user._id})
   .then(data => {
@@ -42,5 +44,10 @@ exports.updateGallery = function(req) {
   debug('#updateGallery');
   if(!req.params.id) return Promise.reject(createError(400, 'Id required'));
 
-  return Gallery.findOneAndUpdate(req.params.id, req.body, {new: true});
+  return Gallery.findOneAndUpdate({ _id: req.params.id, userId: req.user._id}, req.body, {new: true})
+  .then(data => {
+    if (data === null) return createError(404, 'Cannot find that Gallery to update');
+    return data;
+  })
+  .catch(err => createError(err.status, err.message));
 };
