@@ -19,25 +19,23 @@ exports.createGallery = function(req) {
 
 exports.fetchGallery = function(req) {
   debug('#fetchGallery');
-  if(!req.params.id) return Promise.reject(createError(400, 'Bad request'));
-  console.log(req.params.id);
+  if(!req.user) return Promise.reject(createError(400, 'Bad request'));
 
-  return Gallery.findById(req.params.id)
-  .then(gallery => {
-    if(gallery.userId.toString() !== req.params.id.toString()) {
-      return createError(401, 'Invalid user')
-      .then(gallery => gallery)
-      .catch(err => createError(401, err.message));
-    }
-  });
+  return Gallery.find(req.user, { _id : req.params.id})
+  .then(gallery => gallery)
+  .catch(err => createError(404, err.message));
 };
 
 exports.deleteGallery = function(req) {
-  console.log('IDIDID?!?!', req.ObjectId);
   debug('deleteGallery');
+  if(!req.user._id) return Promise.reject(createError(400, 'bad request'));
   if(!req.params.id) return Promise.reject(createError(400, 'bad request'));
 
-  return Gallery.findByIdAndRemove(req.params.id);
+  return Gallery.findOneAndRemove({ _id: req.params.id, userId: req.user._id})
+  .then(data => {
+    if (data === null) return createError(404, 'Gallery not found');
+  })
+  .catch(err => createError(err.status, err.message));
 };
 
 exports.updateGallery = function(req) {
