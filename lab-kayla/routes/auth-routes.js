@@ -1,7 +1,7 @@
 'use strict'
 
 const debug = require('debug')('cfgram:auth-routes')
-const basicAuth = require('../lib/basic-auth-middleware')
+const basicAuth = require('../lib/basic-middleware')
 const User = require('../models/user')
 
 module.exports = function(router) {

@@ -15,7 +15,7 @@ module.exports = function(router) {
     .catch(err => res.status(err.status).send(err.message))
   })
 
-  router.get('/gallery', bearerAuth, (req, res) => {
+  router.get('/gallery/:id', bearerAuth, (req, res) => {
     debug('#GET /api/gallery/:id')
 
     Gallery.findById(req.params.id)
@@ -28,29 +28,20 @@ module.exports = function(router) {
     .catch(err => res.status(err.status).send(err.message))
   })
 
-  router.put('/gallery', bearerAuth, (req, res) => {
+  router.put('/gallery/:id', bearerAuth, (req, res) => {
     debug('#PUT /api/gallery')
 
-    Gallery.updateItem('galley', req.params.id, req.body)
-    .then(gallery => {
-      res.writeHead(200, {'Content-Type': 'application/json'});
-      res.write(JSON.stringify(gallery));
-      res.end();
-    })
-    .catch(err => {
-      console.error(err);
-      res.writeHead(404, {'Content-Type': 'text/plain'});
-      res.write('not found');
-      res.end();
-    })
-    return
+    Gallery.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .then(gallery => res.json(gallery))
+    .catch(err => res.status(err.status).send(err.message))
   })
 
-
-  router.delete('/gallery', bearerAuth, (req, res) => {
+  router.delete('/gallery/:id', bearerAuth, (req, res) => {
     debug('#DELETE /api/gallery')
 
-
+    Gallery.findByIdAndRemove(req.params.id, req.body)
+    .then(() => res.send(204))
+    .catch(err => res.status(err.status).send(err.message))
   })
   return router
 }

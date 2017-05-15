@@ -1,10 +1,10 @@
 'use strict'
 
-const jwt = require()
+const jwt = require('jsonwebtoken')
 const createError = require('http-errors')
 const debug = require('debug')('cfgram:bearer-auth-middleware')
 
-const User = require('../modles/user')
+const User = require('../models/user')
 
 module.exports = function(req, res, next) {
   debug('bearer-auth-middleware')
@@ -20,7 +20,7 @@ module.exports = function(req, res, next) {
 
     User.find({findHash: decoded.token})
     .then(user => {
-      req.user = user
+      req.user = user[0]
       next()
     })
     .catch(err => next(createError(401, err.message)))
