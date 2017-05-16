@@ -6,15 +6,14 @@ const Gallery = require('../models/gallery.js');
 
 module.exports = exports = {};
 
-exports.addPicture = function(req, res) {
+exports.addPicture = function(req) {
+  if(!req.body.name) return Promise.reject(createError(400, 'Invalid name property'));
+  if(!req.body.desc) return Promise.reject(createError(400, 'Invalid desc property'));
   req.body.userId = req.user._id;
   
   new Gallery(req.body).save()
-  .then(gallery => res.json(gallery))
-  .catch(err => {
-    console.log(err);
-    res.status(err.status).send(err.message);
-  });
+  .then(gallery => gallery)
+  .catch(err => Promise.reject(createError(400, err.message)));
 };
 
 exports.getPicture = function(req, res, id, userId) {

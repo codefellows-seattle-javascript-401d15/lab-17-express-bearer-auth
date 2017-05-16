@@ -23,6 +23,10 @@ const testGallery = {
   desc: 'test description',
 };
 
+const invalidGallery = {
+  blah: 'blah',
+};
+
 mongoose.Promise = Promise;
 
 describe('Gallery routes', function() {
@@ -67,6 +71,30 @@ describe('Gallery routes', function() {
         expect(res.body.userId).to.equal(this.tempUser._id.toString());
         expect(date).to.not.equal('Invalid Date');
         expect(res.status).to.equal(200);
+        done();
+      });
+    });
+    
+    it('should thrown an error if not given a token', done => {
+      request.post(`${url}/api/gallery`)
+      .send(testGallery)
+      .set({
+        Authorization: `Bearer `,
+      })
+      .end((err, res) => {
+        expect(res.status).to.equal(401);
+        done();
+      });
+    });
+    
+    it.only('should return a "bad request" error if not given a correct body', done => {
+      request.post(`${url}/api/gallery`)
+      .send({name:''})
+      .set({
+        Authorization: `Bearer ${this.tempToken}`,
+      })
+      .end((err, res) => {
+        expect(res.status).to.equal(400); //put the expect in a catch
         done();
       });
     });
@@ -119,13 +147,24 @@ describe('Gallery routes', function() {
       });
     });
     
-    it.only('should throw an error if given the wrong credentials', done => {
+    it('should throw an error if given the wrong credentials', done => {
       request.get(`${url}/api/gallery/${this.tempGallery._id}`)
       .set({
         Authorization: `Bearer `,
       })
       .end((err, res) => {
         expect(res.status).to.equal(401);
+        done();
+      });
+    });
+    
+    it('should throw an error if given an invalid id', done => {
+      request.get(`${url}/api/gallery/`)
+      .set({
+        Authorization: `Bearer ${this.tempToken}`,
+      })
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
         done();
       });
     });
