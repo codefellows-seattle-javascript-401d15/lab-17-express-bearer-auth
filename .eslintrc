@@ -1,12 +1,12 @@
 {
   "rules": {
-    "quotes": ["error", 0, { "allowTemplateLiterals": true }],
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
     "comma-dangle": ["error", "always-multiline"],
     "no-console": "off",
     "indent": [ "error", 2 ],
     "semi": ["error", "always"]
   },
-  "env": {
+  "env": {  
     "es6": true,
     "node": true,
     "mocha": true,

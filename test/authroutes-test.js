@@ -30,7 +30,7 @@ describe('Auth Routes', function() {
       });
 
       it('should return a token', done => {
-        console.log('exampleUser ', exampleUser);
+        // console.log('exampleUser ', exampleUser);
         request.post(`${url}/api/signup `)
         .send(exampleUser)
         .end((err, res) => {
@@ -38,7 +38,7 @@ describe('Auth Routes', function() {
           // console.log('res', res);
           if (err) return done(err);
           console.log('\ntoken:', res.text, '\n');
-          // expect(res.status).to.equal(200);
+          expect(res.status).to.equal(200);
           // expect(res.text).to.be.a('string');
           done();
         });
