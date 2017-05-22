@@ -31,6 +31,7 @@ module.exports = function(router){
 
   router.delete('/gallery/:id', bearerAuth, (req, res)=> {
     galleryCtrl.deleteItem(req, res, req.params.id);
+
   });
 
   return router;
