@@ -4,7 +4,6 @@ Small Node.js App for Codefellows Coding Bootcamp.
 Sign up to account that almost does something using MongoDB.
 
 ##Installation:
-
 1. clone this repository and ``cd`` into it
 2. run ``npm i``
 
@@ -25,4 +24,4 @@ A token is included in the response of both of these routes
 ⋅⋅⋅ POST: ``http POST localhost:3000/gallery name='Dudes' desc='nothing' 'Authorization:Bearer [TOKEN]``
 ⋅⋅⋅ GET: ``http POST localhost:3000/gallery/id 'Authorization:Bearer [TOKEN]``
 ⋅⋅⋅ PUT: ``http PUT localhost:3000/gallery/id desc='somethin' 'Authorization:Bearer [TOKEN]``
-⋅⋅⋅ DELETE: ``http DELETE localhost:3000/gallery/id 'Authorization:Bearer [TOKEN]`` 
+⋅⋅⋅ DELETE: ``http DELETE localhost:3000/gallery/id 'Authorization:Bearer [TOKEN]``
