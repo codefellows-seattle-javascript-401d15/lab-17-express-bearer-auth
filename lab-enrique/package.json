@@ -1,0 +1,32 @@
+{
+  "name": "lab-enrique",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "debug": "DEBUG=cfgram* nodemon server.js",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "bcrypt": "^1.0.2",
+    "chai": "^3.5.0",
+    "cors": "^2.8.3",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.0",
+    "mocha": "^3.3.0",
+    "mongoose": "^4.11.0",
+    "superagent": "^3.5.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "chai-http": "^3.0.0",
+    "cookie-parser": "^1.4.3",
+    "debug": "^2.6.6",
+    "dotenv": "^4.0.0",
+    "jade": "^1.11.0",
+    "morgan": "^1.8.1"
+  }
+}
